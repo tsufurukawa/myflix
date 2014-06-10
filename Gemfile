@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.1'
 
 gem 'bootstrap-sass'
 gem 'coffee-rails'
-gem 'rails'
+gem 'rails', '4.1.1'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
@@ -21,11 +21,12 @@ group :development do
 end
 
 group :test, :development do 
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.0.0'
 end
 
-group :test do 
+group :test do
   gem 'shoulda-matchers'
+  gem 'database_cleaner', '1.2.0'
 end
 
 group :production do
