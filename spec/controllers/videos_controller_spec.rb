@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 describe VideosController do 
+  describe "GET index" do 
+    it "sets the @categories variable for authenticated users" do 
+      session[:user_id] = Fabricate(:user).id
+      comedy = Category.create(name: 'comedy')
+      drama = Category.create(name: 'drama')
+      get :index
+      expect(assigns(:categories)).to include(comedy, drama)
+    end
+
+    it "redirects to sign in page for unauthenticated users" do 
+      comedy = Category.create(name: 'comedy')
+      drama = Category.create(name: 'drama')
+      get :index
+      expect(response).to redirect_to sign_in_path
+    end
+  end
+
   describe "GET show" do 
     it "sets the @video variable for authenticated users" do 
       session[:user_id] = Fabricate(:user).id
