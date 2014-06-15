@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Video do
   it { should belong_to(:category) }
+  it { should have_many(:reviews).order(created_at: :desc) }
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }
   
@@ -37,4 +38,25 @@ describe Video do
     end
   end
 
+  describe '#average_rating' do 
+    it "returns a float rounded to the nearest tenths place " do 
+      video1 = Fabricate(:video)
+      review1 = Fabricate(:review, rating: 2, video: video1)
+      review2 = Fabricate(:review, rating: 3, video: video1)
+      review3 = Fabricate(:review, rating: 3, video: video1)
+      expect(video1.average_rating).to eq(2.7)
+    end
+
+    it "returns a float with a 0 in the tenths place if average rating is a whole number" do 
+      video1 = Fabricate(:video)
+      review1 = Fabricate(:review, rating: 4, video: video1)
+      review2 = Fabricate(:review, rating: 2, video: video1)
+      expect(video1.average_rating).to eql(3.0)
+    end
+
+    it "returns nil if there are no reviews/ratings" do 
+      video1 = Fabricate(:video)
+      expect(video1.average_rating).to be_nil
+    end
+  end
 end

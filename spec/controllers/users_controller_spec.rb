@@ -25,10 +25,8 @@ describe UsersController do
 
   describe "POST create" do 
     context "with valid input" do 
-      before do 
-        post :create, user: Fabricate.attributes_for(:user)
-      end
-
+      before { post :create, user: Fabricate.attributes_for(:user) }
+      
       it "creates a user" do 
         expect(User.count).to eq(1)
       end
@@ -44,9 +42,7 @@ describe UsersController do
     end
 
     context "with invalid input" do 
-      before do 
-        post :create, user: { name: "Josh Smith" }
-      end
+      before { post :create, user: { name: "Josh Smith" } }
 
       it "doesn't create any user" do 
         expect(User.count).to eq(0)
@@ -56,7 +52,7 @@ describe UsersController do
         expect(response).to render_template :new
       end
 
-      it "sets @user (but does not persist)" do 
+      it "sets @user (but does not persist in database)" do 
         expect(assigns(:user)).to be_a_new(User)
       end
     end

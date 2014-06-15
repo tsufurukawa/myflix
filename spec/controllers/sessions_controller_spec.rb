@@ -24,14 +24,13 @@ describe SessionsController do
   end
 
   describe "POST create" do 
+    let(:user) { Fabricate(:user) }
+
     context "with valid authentication" do 
-      before do 
-        @user = Fabricate(:user)
-        post :create, email: @user.email, password: @user.password
-      end
+      before { post :create, email: user.email, password: user.password }
 
       it "sets the session for the authenticated user" do
-        expect(session[:user_id]).to eq(@user.id)
+        expect(session[:user_id]).to eq(user.id)
       end 
 
       it "redirects to home page" do 
@@ -44,10 +43,7 @@ describe SessionsController do
     end
 
     context "with invalid authentication" do 
-      before do 
-        user = Fabricate(:user)
-        post :create, email: user.email, password: "#{user.password} 123"
-      end
+      before { post :create, email: user.email, password: "#{user.password} 123" }
 
       it "does not set the session for the user" do 
         expect(session[:user_id]).to be_nil
@@ -66,7 +62,7 @@ describe SessionsController do
   describe "GET destroy" do 
     context "for authenticated users" do
       before do 
-        session[:user_id] = Fabricate(:user)
+        session[:user_id] = Fabricate(:user).id
         get :destroy
       end
 

@@ -19,12 +19,27 @@ describe VideosController do
   end
 
   describe "GET show" do 
-    it "sets the @video variable for authenticated users" do 
-      session[:user_id] = Fabricate(:user).id
-      video1 = Fabricate(:video)
-      video2 = Fabricate(:video)
-      get :show, id: video2.id
-      expect(assigns(:video)).to eq(video2)
+    context "for authenticated users" do 
+      let(:video1) { Fabricate(:video) }
+      let(:video2) { Fabricate(:video) }
+      let(:review1) { Fabricate(:review, video: video2, created_at: 5.minutes.ago) }
+      let(:review2) { Fabricate(:review, video: video2, created_at: 3.minutes.ago) }
+      before do 
+        session[:user_id] = Fabricate(:user).id
+        get :show, id: video2.id
+      end
+
+      it "sets the @video variable" do 
+        expect(assigns(:video)).to eq(video2)
+      end
+
+      it "sets @reviews variable" do 
+        expect(assigns(:reviews)).to match_array([review1, review2])
+      end
+
+      it "sets @reviews ordered by created_at reverse chronologically" do 
+        expect(assigns(:reviews)).to eq([review2, review1])
+      end
     end
     
     it "redirects to sign in page for unauthenticated users" do 
