@@ -1,7 +1,7 @@
 class Category < ActiveRecord::Base
   has_many :videos, -> { order(created_at: :desc) }
 
-  validates_uniqueness_of :name
+  validates :name, presence: true, uniqueness: true
 
   def recent_videos
     self.videos.first(6)
