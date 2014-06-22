@@ -4,7 +4,6 @@ describe QueueItem do
   it { should belong_to(:user) }
   it { should belong_to(:video) }
   it { should validate_presence_of(:position) }
-  it { should validate_uniqueness_of(:position) }
   it { should validate_numericality_of(:position).only_integer }
   it { should validate_numericality_of(:position).is_greater_than_or_equal_to(0)}
 
