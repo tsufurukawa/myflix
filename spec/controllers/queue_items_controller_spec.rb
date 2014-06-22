@@ -131,8 +131,9 @@ describe QueueItemsController do
   describe "POST update_queue" do 
     context "with valid input" do 
       let(:authenticated_user) { Fabricate(:user) } 
-      let(:queue_item1) { Fabricate(:queue_item, position: 1, user: authenticated_user) } 
-      let(:queue_item2) { Fabricate(:queue_item, position: 2, user: authenticated_user) } 
+      let(:video) { Fabricate(:video) }
+      let(:queue_item1) { Fabricate(:queue_item, position: 1, user: authenticated_user, video: video) } 
+      let(:queue_item2) { Fabricate(:queue_item, position: 2, user: authenticated_user, video: video) } 
 
       before { session[:user_id] = authenticated_user.id } 
  
@@ -160,8 +161,9 @@ describe QueueItemsController do
 
     context "with invalid input" do 
       let(:authenticated_user) { Fabricate(:user) } 
-      let(:queue_item1) { Fabricate(:queue_item, position: 1, user: authenticated_user) } 
-      let(:queue_item2) { Fabricate(:queue_item, position: 2, user: authenticated_user) } 
+      let(:video) { Fabricate(:video) }
+      let(:queue_item1) { Fabricate(:queue_item, position: 1, user: authenticated_user, video: video) } 
+      let(:queue_item2) { Fabricate(:queue_item, position: 2, user: authenticated_user, video: video) } 
 
       before { session[:user_id] = authenticated_user.id } 
 
