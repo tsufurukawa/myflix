@@ -11,7 +11,7 @@ class QueueItem < ActiveRecord::Base
     review.rating if review
   end
 
-  # Creating a 'rating' Virtual Attribute
+  # creates a 'rating' Virtual Attribute
   def rating=(new_rating)
     if review
       review.update_column(:rating, new_rating)
