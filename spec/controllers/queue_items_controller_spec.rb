@@ -181,6 +181,14 @@ describe QueueItemsController do
       end
     end
 
+    context "when user updates the queue with no queue items in the queue" do 
+      it "redirects back to my queue page" do 
+        sets_current_user
+        patch :update_queue
+        expect(response).to redirect_to my_queue_path
+      end
+    end
+
     it_behaves_like "require_sign_in" do 
       let(:action) { patch :update_queue, queue_items: [{id: 1, position: 2}, {id: 2, position: 1}] }
     end

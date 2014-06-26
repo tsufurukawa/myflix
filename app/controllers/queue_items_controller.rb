@@ -19,6 +19,11 @@ class QueueItemsController < ApplicationController
   end
 
   def update_queue
+    if current_user.queue_items.empty?
+      display_no_queue_items_error
+      return
+    end
+
     begin
       update_queue_items
       current_user.normalize_queue_item_positions
@@ -43,5 +48,10 @@ class QueueItemsController < ApplicationController
         queue_item.update_attributes!(position: queue_item_data[:position], rating: queue_item_data[:rating]) if queue_item.user == current_user
       end
     end
+  end
+
+  def display_no_queue_items_error
+    flash[:danger] = "There are no items in your queue."
+    redirect_to my_queue_path
   end
 end

@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
       queue_item.update_attributes(position: index + 1)
     end
   end
+
+  def video_in_queue?(video)
+    !!queue_items.find_by(video: video)
+  end
 end

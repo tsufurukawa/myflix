@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
 
   def can_sign_in?  
     if logged_in?
-      flash[:danger] = "You are already signed-in."
+      flash[:danger] = "You are already signed in."
       redirect_to home_path
     end
   end
