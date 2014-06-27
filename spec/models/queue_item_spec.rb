@@ -3,6 +3,9 @@ require 'rails_helper'
 describe QueueItem do 
   it { should belong_to(:user) }
   it { should belong_to(:video) }
+  it { should validate_presence_of(:position) }
+  it { should validate_numericality_of(:position).only_integer }
+  it { should validate_numericality_of(:position).is_greater_than_or_equal_to(0)}
 
   describe "#video_title" do 
     it "returns the title of the associated video" do 
@@ -13,21 +16,41 @@ describe QueueItem do
   end
 
   describe "#rating" do 
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video) }
+    let(:queue_item) { Fabricate(:queue_item, video: video, user: user) }
+
     it "returns the rating from the review if the video associated with the queue item has been reviewed by the user" do 
-      user = Fabricate(:user)
-      video = Fabricate(:video)
       review = Fabricate(:review, user: user, video: video, rating: 3)
-      queue_item = Fabricate(:queue_item, video: video, user: user)
       expect(queue_item.rating).to eq(3)
     end
 
     it "returns nil if the video associated with the queue item hasn't been reviewed by the user" do 
-      user = Fabricate(:user)
       user2 = Fabricate(:user)
-      video = Fabricate(:video)
       review = Fabricate(:review, user: user2, video: video, rating: 3)
-      queue_item = Fabricate(:queue_item, video: video, user: user)
       expect(queue_item.rating).to eq(nil)
+    end
+  end
+
+  describe "#rating=" do 
+    let(:user) { Fabricate(:user) }
+    let(:video) { Fabricate(:video) }
+    let(:queue_item) { Fabricate(:queue_item, user: user, video: video) }
+    let(:review) { Fabricate(:review, user: user, rating: 1, video: video) }
+
+    it "updates the rating if the review already exists" do 
+      queue_item.rating = 3
+      expect(Review.first.rating).to eq(3)
+    end
+
+    it "removes the rating if the review already exists" do 
+      queue_item.rating = nil
+      expect(Review.first.rating).to be_nil
+    end
+
+    it "creates a new review with the rating if the review does not exist" do 
+      queue_item.rating = 3
+      expect(Review.first.rating).to eq(3)
     end
   end
 

@@ -4,7 +4,7 @@ describe SessionsController do
   describe "GET new" do 
     context "for authenticated users" do 
       before do 
-        session[:user_id] = Fabricate(:user).id
+        sets_current_user
         get :new
       end
 
@@ -43,26 +43,21 @@ describe SessionsController do
     end
 
     context "with invalid authentication" do 
-      before { post :create, email: user.email, password: "#{user.password} 123" }
+      let(:action) { post :create, email: user.email, password: "#{user.password} 123" }
 
       it "does not set the session for the user" do 
+        action
         expect(session[:user_id]).to be_nil
       end
 
-      it "redirects to sign in page" do 
-        expect(response).to redirect_to sign_in_path
-      end
-
-      it "sets an error message" do 
-        expect(flash[:danger]).not_to be_blank
-      end
+      it_behaves_like "require_sign_in" 
     end
   end
 
   describe "GET destroy" do 
     context "for authenticated users" do
       before do 
-        session[:user_id] = Fabricate(:user).id
+        sets_current_user
         get :destroy
       end
 
@@ -79,16 +74,8 @@ describe SessionsController do
       end
     end
 
-    context "for unauthenticated users" do 
-      before { get :destroy }
-
-      it "redirects to sign in page" do 
-        expect(response).to redirect_to sign_in_path
-      end
-
-      it "sets an error message" do 
-        expect(flash[:danger]).not_to be_blank
-      end
+    it_behaves_like "require_sign_in" do 
+      let(:action) { get :destroy }
     end
   end
 end

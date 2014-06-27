@@ -3,11 +3,9 @@ require 'rails_helper'
 describe ReviewsController do 
   describe "POST create" do 
     let(:video) { Fabricate(:video) }
+    before { sets_current_user }
 
     context "for authenticated users" do 
-      let(:authenticated_user) { Fabricate(:user) }
-      before { session[:user_id] = authenticated_user.id }
-
       context "with valid input" do 
         before { post :create, review: Fabricate.attributes_for(:review), video_id: video.id }
         
@@ -24,7 +22,7 @@ describe ReviewsController do
         end
 
         it "creates a review associated with the signed-in user" do
-          expect(Review.first.user).to eq(authenticated_user)
+          expect(Review.first.user).to eq(current_user)
         end
 
         it "sets a success message" do 
@@ -62,16 +60,8 @@ describe ReviewsController do
       end 
     end
 
-    context "for unauthenticated users" do 
-      before { post :create, review: Fabricate.attributes_for(:review), video_id: video.id }
-      
-      it "sets an error message" do 
-        expect(flash[:danger]).not_to be_blank
-      end
-
-      it "redirects to sign in page" do
-        expect(response).to redirect_to sign_in_path
-      end
+    it_behaves_like "require_sign_in" do 
+      let(:action) { post :create, review: Fabricate.attributes_for(:review), video_id: video.id  }
     end
   end
 end

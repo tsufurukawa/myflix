@@ -4,7 +4,7 @@ describe UsersController do
   describe "GET new" do 
     context "for authenticated users" do 
       before do 
-        session[:user_id] = Fabricate(:user).id
+        sets_current_user
         get :new
       end
 
