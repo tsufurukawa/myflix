@@ -1,8 +1,14 @@
 class UsersController < ApplicationController
   before_action :can_register?, only: [:new]
+  before_action :require_user, only: [:show]
 
   def new 
     @user = User.new
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @reviews = @user.reviews
   end
 
   def create

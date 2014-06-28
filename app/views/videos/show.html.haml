@@ -39,6 +39,6 @@
                 %span Rating: #{review.rating} / 5
                 %p
                   by
-                  = link_to review.user.name, '#'
+                  = link_to review.user.name, review.user
               .col-sm-8
                 %p= review.content

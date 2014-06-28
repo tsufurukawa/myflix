@@ -23,6 +23,29 @@ describe UsersController do
     end
   end
 
+  describe "GET show" do 
+    context "for authenticated users" do 
+      before { sets_current_user }
+      let(:user) { current_user }
+
+      it "sets the @user variable" do 
+        get :show, id: user.id
+        expect(assigns(:user)).to eq(user) 
+      end
+
+      it "sets the @reviews variable" do 
+        review1 = Fabricate(:review, user: user)
+        review2 = Fabricate(:review, user: user)
+        get :show, id: user.id
+        expect(assigns(:reviews)).to match_array([review1, review2])
+      end
+    end
+
+    it_behaves_like "require_sign_in" do 
+      let(:action) { get :show, id: 1 }
+    end
+  end
+
   describe "POST create" do 
     context "with valid input" do 
       before { post :create, user: Fabricate.attributes_for(:user) }
