@@ -18,6 +18,7 @@ Myflix::Application.routes.draw do
   end
 
   resources :users, only: [:create, :show]
+  get '/people', to: 'relationships#index'
 
   resources :queue_items, only: [:create, :destroy]
   patch '/update_queue', to: 'queue_items#update_queue'
