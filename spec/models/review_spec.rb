@@ -10,5 +10,5 @@ describe Review do
   it { should validate_numericality_of(:rating).is_less_than_or_equal_to(5) }
 
   # it { should validate_uniqueness_of(:user).scoped_to(:video_id) }
-  # it { should validate_uniqueness_of(:user).with_message('may only write one review per.') }
+  # it { should validate_uniqueness_of(:user).with_message('may only write one review per video.') }
 end
