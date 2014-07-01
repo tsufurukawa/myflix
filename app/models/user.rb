@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_many :reviews, -> { order(created_at: :desc) }
   has_many :queue_items, -> { order :position }
 
+  has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_user_id
+
   validates :name, presence: true
   validates :password, presence: true, length: { minimum: 5 }
   validates :email, presence: true, uniqueness: true

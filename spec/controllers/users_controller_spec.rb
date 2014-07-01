@@ -35,9 +35,8 @@ describe UsersController do
 
       it "sets the @reviews variable" do 
         review1 = Fabricate(:review, user: user)
-        review2 = Fabricate(:review, user: user)
         get :show, id: user.id
-        expect(assigns(:reviews)).to match_array([review1, review2])
+        expect(assigns(:reviews)).to match_array([review1])
       end
     end
 
