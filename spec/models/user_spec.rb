@@ -5,6 +5,7 @@ describe User do
   it { should have_many(:reviews).order(created_at: :desc) }
   it { should have_many(:queue_items).order(:position) }
   it { should have_many(:following_relationships) }
+  it { should have_many(:followed_relationships) }
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:email) }
