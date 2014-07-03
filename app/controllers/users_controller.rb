@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      AppMailer.send_welcome_email(@user).deliver
       session[:user_id] = @user.id
       flash[:success] = "Welcome #{@user.name}!! You successfuly registered."
       redirect_to home_path

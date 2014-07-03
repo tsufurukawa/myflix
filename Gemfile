@@ -17,8 +17,9 @@ group :development do
   gem 'sqlite3'
   gem 'pry-nav'
   gem 'thin'
-  gem "better_errors"
-  gem "binding_of_caller"
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 group :test, :development do 
