@@ -11,6 +11,11 @@ describe User do
   it { should validate_uniqueness_of(:email) }
   it { should ensure_length_of(:password).is_at_least(5) }
 
+  it "generates a random token when a user is created" do
+    user = Fabricate(:user)
+    expect(user.token).to be_present
+  end
+
   describe "#video_already_queued?" do 
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }

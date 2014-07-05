@@ -17,4 +17,11 @@ class ApplicationController < ActionController::Base
       redirect_to sign_in_path
     end
   end
+
+  def require_non_signed_in_user
+    if logged_in?
+      flash[:danger] = "You cannot access that page."
+      redirect_to home_path
+    end
+  end
 end

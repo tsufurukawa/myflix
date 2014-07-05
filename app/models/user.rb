@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 5 }
   validates :email, presence: true, uniqueness: true
 
+  before_create :generate_token
+
   def new_queue_item_position
     queue_items.count + 1
   end
@@ -29,5 +31,9 @@ class User < ActiveRecord::Base
 
   def can_follow?(another_user)
     !(already_following?(another_user) || self == another_user) 
+  end
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 end
