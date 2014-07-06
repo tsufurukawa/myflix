@@ -23,9 +23,32 @@ describe UsersController do
     end
   end
 
+  describe "GET show" do 
+    context "for authenticated users" do 
+      before { sets_current_user }
+      let(:user) { current_user }
+
+      it "sets the @user variable" do 
+        get :show, id: user.id
+        expect(assigns(:user)).to eq(user) 
+      end
+
+      it "sets the @reviews variable" do 
+        review1 = Fabricate(:review, user: user)
+        get :show, id: user.id
+        expect(assigns(:reviews)).to match_array([review1])
+      end
+    end
+
+    it_behaves_like "require_sign_in" do 
+      let(:action) { get :show, id: 1 }
+    end
+  end
+
   describe "POST create" do 
     context "with valid input" do 
-      before { post :create, user: Fabricate.attributes_for(:user) }
+      before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }}
+      after { ActionMailer::Base.deliveries.clear }
       
       it "creates a user" do 
         expect(User.count).to eq(1)
@@ -38,6 +61,23 @@ describe UsersController do
 
       it "redirects to home page" do 
         expect(response).to redirect_to home_path
+      end
+
+      context "email sending" do 
+        it "sends out the email" do 
+          expect(ActionMailer::Base.deliveries).not_to be_empty    
+        end
+
+        it "sends to the right recipient" do 
+          message = ActionMailer::Base.deliveries.last
+          expect(message.to).to eq(["alice@example.com"])  
+        end
+
+        it "has the right content" do
+          user = assigns(:user) 
+          message = ActionMailer::Base.deliveries.last
+          expect(message.body).to include("Welcome to Myflix, Alice")
+        end
       end
     end
 
@@ -54,6 +94,10 @@ describe UsersController do
 
       it "sets @user (but does not persist in database)" do 
         expect(assigns(:user)).to be_a_new(User)
+      end
+
+      it "does not send out the email" do 
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
   end

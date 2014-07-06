@@ -11,7 +11,7 @@ class Video < ActiveRecord::Base
   end
 
   def average_rating
-    review = Review.where(video: self)
-    average = review.average(:rating).round(1) unless review.count == 0
+    reviews = Review.where(video: self)
+    average = reviews.average(:rating).round(1) unless reviews.count == 0
   end
 end

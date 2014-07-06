@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :require_user, only: [:destroy]
-  before_action :can_sign_in?, only: [:new]
+  before_action :require_non_signed_in_user, only: [:new]
 
   def new; end
 
@@ -21,14 +21,5 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     flash[:info] = "You've logged out."
     redirect_to root_path 
-  end
-
-  private 
-
-  def can_sign_in?  
-    if logged_in?
-      flash[:danger] = "You are already signed in."
-      redirect_to home_path
-    end
   end
 end

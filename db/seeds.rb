@@ -20,10 +20,10 @@ Category.create(name: 'Reality TV')
   Fabricate(:user, password: 'password')
 end
 
-10.times do 
-  user = User.all.sample
-  video = Video.all.sample
-  Fabricate(:review, rating: rand(6), user: user, video: video)
+Video.all.each do |video|
+  User.all.each do |user|
+    Fabricate(:review, rating: rand(6), user: user, video: video)
+  end
 end
 
 Video.all.each do |video|

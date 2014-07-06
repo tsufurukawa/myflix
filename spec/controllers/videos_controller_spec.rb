@@ -23,8 +23,10 @@ describe VideosController do
     context "for authenticated users" do 
       let(:video1) { Fabricate(:video) }
       let(:video2) { Fabricate(:video) }
-      let(:review1) { Fabricate(:review, video: video2, created_at: 5.minutes.ago) }
-      let(:review2) { Fabricate(:review, video: video2, created_at: 3.minutes.ago) }
+      let(:user1) { Fabricate(:user) }
+      let(:user2) { Fabricate(:user) }
+      let(:review1) { Fabricate(:review, video: video2, user: user1, created_at: 5.minutes.ago) }
+      let(:review2) { Fabricate(:review, video: video2, user: user2, created_at: 3.minutes.ago) }
 
       before do 
         sets_current_user

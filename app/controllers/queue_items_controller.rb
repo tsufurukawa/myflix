@@ -36,7 +36,7 @@ class QueueItemsController < ApplicationController
   private 
 
   def queue_video(video)
-    unless current_user.queued_video_already_exists?(video)
+    unless current_user.video_already_queued?(video)
       QueueItem.create(video: video, user: current_user, position: current_user.new_queue_item_position) 
     end
   end
