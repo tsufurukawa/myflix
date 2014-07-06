@@ -2,16 +2,15 @@ require 'rails_helper'
 
 describe PasswordResetsController do
   describe "GET show" do
+    let(:user) { Fabricate(:user) }
+    before { user.update_column(:token, "some token") }
+
     it "renders show template for valid token" do
-      user = Fabricate(:user)
-      user.update_column(:token, "some token")
       get :show, id: "some token"
       expect(response).to render_template :show
     end
 
     it "sets the @token variable" do
-      user = Fabricate(:user)
-      user.update_column(:token, "some token")
       get :show, id: "some token"
       expect(assigns[:token]).to eq("some token")
     end
@@ -24,47 +23,41 @@ describe PasswordResetsController do
 
   describe "POST create" do
     context "with valid token and valid password" do
-      it "redirects to sign in page" do
-        user = Fabricate(:user, password: "password")
+      let(:user) { Fabricate(:user, password: "password") }
+      before do
         user.update_column(:token, "some token")
         post :create, token: "some token", password: "another password"
+      end
+
+      it "redirects to sign in page" do
         expect(response).to redirect_to sign_in_path
       end
 
       it "sets a flash success message" do
-        user = Fabricate(:user, password: "password")
-        user.update_column(:token, "some token")
-        post :create, token: "some token", password: "another password"  
         expect(flash[:success]).to be_present
       end
 
       it "updates the user password" do
-        user = Fabricate(:user, password: "password")
-        user.update_column(:token, "some token")
-        post :create, token: "some token", password: "another password"
         expect(user.reload.authenticate("another password")).to be_truthy
       end
 
       it "regenerates the user token" do
-        user = Fabricate(:user, password: "password")
-        user.update_column(:token, "some token")
-        post :create, token: "some token", password: "another password"
         expect(user.reload.token).not_to eq("some token")
       end
     end
 
     context "with valid token but invalid password" do
-      it "redirects to password reset show page" do
-        user = Fabricate(:user, password: "password")
+      let(:user) { Fabricate(:user, password: "password") }
+      before do
         user.update_column(:token, "some token")
         post :create, token: "some token", password: "a"
+      end
+
+      it "redirects to password reset show page" do
         expect(response).to redirect_to password_reset_path(user.token)
       end
 
       it "sets a flash error message" do
-        user = Fabricate(:user, password: "password")
-        user.update_column(:token, "some token")
-        post :create, token: "some token", password: "a"
         expect(flash[:danger]).to be_present
       end
     end
