@@ -24,6 +24,7 @@ describe PasswordResetsController do
   describe "POST create" do
     context "with valid token and valid password" do
       let(:user) { Fabricate(:user, password: "password") }
+
       before do
         user.update_column(:token, "some token")
         post :create, token: "some token", password: "another password"
@@ -48,6 +49,7 @@ describe PasswordResetsController do
 
     context "with valid token but invalid password" do
       let(:user) { Fabricate(:user, password: "password") }
+      
       before do
         user.update_column(:token, "some token")
         post :create, token: "some token", password: "a"

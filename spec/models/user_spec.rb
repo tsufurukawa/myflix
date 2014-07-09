@@ -44,4 +44,19 @@ describe User do
       expect(user1.already_following?(user2)).to eq(false)
     end
   end
+
+  describe "#follow" do
+    let(:user1) { Fabricate(:user) }
+    let(:user2) { Fabricate(:user) }
+
+    it "creates a following relationship with another user" do
+      user1.follow(user2)
+      expect(user1.already_following?(user2)).to be_truthy
+    end
+
+    it "does not follow oneself" do
+      user1.follow(user1)
+      expect(user1.already_following?(user1)).to be_falsy
+    end
+  end
 end

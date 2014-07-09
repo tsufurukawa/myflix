@@ -23,6 +23,32 @@ describe UsersController do
     end
   end
 
+  describe "GET new_with_invitation_token" do
+    let(:invitation) { Fabricate(:invitation) }
+    before { get :new_with_invitation_token, token: invitation.token }
+
+    context "with valid token" do
+      it "sets the @user variable with the recipient's email" do
+        expect(assigns[:user].email).to eq(invitation.recipient_email)
+      end
+
+      it "sets the @invitation_token variable" do
+        expect(assigns[:invitation_token]).to eq(invitation.token)
+      end
+
+      it "renders the new template" do
+        expect(response).to render_template :new
+      end
+    end
+
+    context "with invalid token" do
+      it "redirects to the expired token page" do
+        get :new_with_invitation_token, token: "some token"
+        expect(response).to redirect_to invalid_token_path
+      end
+    end
+  end
+
   describe "GET show" do 
     context "for authenticated users" do 
       before { sets_current_user }
@@ -47,28 +73,52 @@ describe UsersController do
 
   describe "POST create" do 
     context "with valid input" do 
-      before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }}
       after { ActionMailer::Base.deliveries.clear }
       
-      it "creates a user" do 
+      it "creates a user" do
+        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
         expect(User.count).to eq(1)
       end
 
-      it "sets the session for the user" do 
+      it "sets the session for the user" do
+        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
         user = assigns(:user)
         expect(session[:user_id]).to eq(user.id)
       end
 
-      it "redirects to home page" do 
+      it "redirects to home page" do
+        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
         expect(response).to redirect_to home_path
       end
 
-      context "email sending" do 
-        it "sends out the email" do 
+      context "through invitation" do
+        let(:inviter) { Fabricate(:user) }
+        let(:invitation) { Fabricate(:invitation, inviter: inviter) }
+        before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }, invitation_token: invitation.token }
+
+        it "makes the user follow the inviter" do
+          user = User.find_by_name("Alice")
+          expect(user.already_following?(inviter)).to be_truthy
+        end
+
+        it "makes the inviter follow the user" do
+          user = User.find_by_name("Alice")
+          expect(inviter.already_following?(user)).to be_truthy
+        end
+
+        it "expires the invitation upon acceptance" do
+          expect(Invitation.first.token).to be_nil
+        end
+      end
+
+      context "email sending" do
+        before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" } }
+
+        it "sends out the email" do
           expect(ActionMailer::Base.deliveries).not_to be_empty    
         end
 
-        it "sends to the right recipient" do 
+        it "sends to the right recipient" do
           message = ActionMailer::Base.deliveries.last
           expect(message.to).to eq(["alice@example.com"])  
         end

@@ -2,8 +2,20 @@ class UsersController < ApplicationController
   before_action :can_register?, only: [:new]
   before_action :require_user, only: [:show]
 
-  def new 
+  def new
     @user = User.new
+  end
+
+  def new_with_invitation_token
+    invitation = Invitation.find_by_token(params[:token])
+
+    if invitation
+      @user = User.new(email: invitation.recipient_email)
+      @invitation_token = invitation.token
+      render :new
+    else
+      redirect_to invalid_token_path
+    end
   end
 
   def show
@@ -15,6 +27,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      handle_invitation
       AppMailer.send_welcome_email(@user).deliver
       session[:user_id] = @user.id
       flash[:success] = "Welcome #{@user.name}!! You successfuly registered."
@@ -34,6 +47,15 @@ class UsersController < ApplicationController
     if logged_in?
       flash[:danger] = "You have already registered for an account."
       redirect_to home_path
+    end
+  end
+
+  def handle_invitation
+    if params[:invitation_token].present?
+      invitation = Invitation.find_by_token(params[:invitation_token])
+      @user.follow(invitation.inviter)
+      invitation.inviter.follow(@user)
+      invitation.update_column(:token, nil)
     end
   end
 end

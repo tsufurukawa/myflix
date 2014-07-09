@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     !(already_following?(another_user) || self == another_user) 
   end
 
+  def follow(another_user)
+    Relationship.create(follower: self, followed: another_user) if can_follow?(another_user)
+  end
+
   def generate_token
     self.token = SecureRandom.urlsafe_base64
   end
