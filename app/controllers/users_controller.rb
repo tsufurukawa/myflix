@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       handle_invitation
       AppMailer.send_welcome_email(@user).deliver
       session[:user_id] = @user.id
-      flash[:success] = "Welcome #{@user.name}!! You successfuly registered."
+      flash[:success] = "Welcome #{@user.name}!! You successfully registered."
       redirect_to home_path
     else
       render :new
