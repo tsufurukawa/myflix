@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Tokenable
+  
   has_secure_password validations: false
   has_many :reviews, -> { order(created_at: :desc) }
   has_many :queue_items, -> { order :position }
@@ -8,8 +10,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :password, presence: true, length: { minimum: 5 }
   validates :email, presence: true, uniqueness: true
-
-  before_create :generate_token
 
   def new_queue_item_position
     queue_items.count + 1
@@ -35,9 +35,5 @@ class User < ActiveRecord::Base
 
   def follow(another_user)
     Relationship.create(follower: self, followed: another_user) if can_follow?(another_user)
-  end
-
-  def generate_token
-    self.token = SecureRandom.urlsafe_base64
   end
 end

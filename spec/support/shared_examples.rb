@@ -12,3 +12,9 @@ shared_examples "require_sign_in" do
     expect(flash[:danger]).not_to be_blank
   end
 end
+
+shared_examples "tokenable" do
+  it "generates random token" do
+    expect(obj.token).to be_present
+  end
+end
