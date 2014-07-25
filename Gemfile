@@ -14,6 +14,7 @@ gem 'fabrication'
 gem 'faker'
 gem 'sidekiq'
 gem 'unicorn'
+gem 'sentry-raven'
 
 group :development do
   gem 'sqlite3'
