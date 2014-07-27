@@ -1,6 +1,10 @@
-# used for unit specs
+# following methods used for unit specs
 def sets_current_user(user=nil)
   session[:user_id] = (user || Fabricate(:user)).id
+end
+
+def sets_current_admin(admin=nil)
+  session[:user_id] = (admin || Fabricate(:admin)).id
 end
 
 def current_user
@@ -11,7 +15,7 @@ def clear_current_user
   session[:user_id] = nil
 end
 
-# used for feature specs
+# following methods used for feature specs
 def sign_in(a_user=nil)
   user = a_user || Fabricate(:user)
   visit sign_in_path
