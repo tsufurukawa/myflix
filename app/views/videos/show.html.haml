@@ -3,8 +3,8 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        = link_to "/tmp/monk_large.jpg", nil do 
-          = image_tag "/tmp/monk_large.jpg"
+        = link_to @video.large_cover.url, nil do 
+          = image_tag @video.large_cover.url
       .video_info.col-sm-3
         %header
           %h3= @video.title

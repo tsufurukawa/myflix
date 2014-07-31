@@ -18,3 +18,18 @@ shared_examples "tokenable" do
     expect(obj.token).to be_present
   end
 end
+
+shared_examples "require_admin" do
+  before do
+    sets_current_user
+    action
+  end
+
+  it "redirects to home path" do
+    expect(response).to redirect_to home_path
+  end
+
+  it "sets a flash error message" do
+    expect(flash[:danger]).to be_present
+  end
+end
