@@ -19,3 +19,6 @@
 
 # Ignore files uploaded via carrierwave
 /public/uploads
+
+# Ignore application configuration
+/config/application.yml
