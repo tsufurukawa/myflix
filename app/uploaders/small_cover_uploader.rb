@@ -16,6 +16,6 @@ class SmallCoverUploader < CarrierWave::Uploader::Base
 
   # fallback url in case no image has been uploaded
   def default_url
-    ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
+    ActionController::Base.helpers.asset_path("default_small.jpg")
   end
 end

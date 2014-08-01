@@ -1,16 +1,11 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+small_cover = File.open('app/assets/images/default_small.jpg')
+large_cover = File.open('app/assets/images/default_large.png')
 
-Fabricate(:video, title: 'South Park', small_cover_url: 'south_park')
-Fabricate(:video, title: 'Futurama', small_cover_url: 'futurama')
-Fabricate(:video, title: 'South Park', small_cover_url: 'south_park')
-Fabricate(:video, title: 'Monk', small_cover_url: 'monk')
-Fabricate(:video, title: 'Futurama', small_cover_url: 'futurama')
+Fabricate(:video, title: 'South Park', small_cover: small_cover, large_cover: large_cover)
+Fabricate(:video, title: 'Futurama', small_cover: small_cover, large_cover: large_cover)
+Fabricate(:video, title: 'South Park', small_cover: small_cover, large_cover: large_cover)
 
 Category.create(name: 'Drama')
 Category.create(name: 'Comedy')

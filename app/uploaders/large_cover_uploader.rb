@@ -16,6 +16,6 @@ class LargeCoverUploader < CarrierWave::Uploader::Base
 
   # fallback url in case no image has been uploaded
   def default_url
-    ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
+    ActionController::Base.helpers.asset_path("default_large.png")
   end
 end
