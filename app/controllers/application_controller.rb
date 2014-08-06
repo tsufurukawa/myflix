@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def require_user
     if !logged_in?
-      flash[:danger] = "Access reserveed for members only. Please sign in first."
+      flash[:danger] = "Access reserved for members only. Please sign in first."
       redirect_to sign_in_path
     end
   end
