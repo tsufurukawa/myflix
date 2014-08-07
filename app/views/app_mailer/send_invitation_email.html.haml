@@ -4,7 +4,4 @@
     %h4 You have been invited by #{@invitation.inviter.name} to join Myflix!!!
     %p #{@invitation.inviter.name}'s Message:
     %p "#{@invitation.message}"
-    /////////////////
-    = binding.pry
-    /////////////////
     %p= link_to "Accept Invitation", register_with_token_url(@invitation.token)

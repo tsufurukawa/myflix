@@ -8,6 +8,9 @@ require 'capybara/email/rspec'
 require 'sidekiq/testing'
 Sidekiq::Testing.inline!
 
+# force Selenium to run on localhost:50924
+Capybara.server_port = 50924
+
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)

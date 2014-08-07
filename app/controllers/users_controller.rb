@@ -7,10 +7,6 @@ class UsersController < ApplicationController
   end
 
   def new_with_invitation_token
-    ####################
-    binding.pry
-    ####################
-
     invitation = Invitation.find_by_token(params[:token])
 
     if invitation
