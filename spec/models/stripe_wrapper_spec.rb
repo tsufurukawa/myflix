@@ -3,7 +3,6 @@ require 'rails_helper'
 describe StripeWrapper do
   describe StripeWrapper::Charge do
     describe ".create" do
-      before { StripeWrapper.set_api_key }
       let(:token) { Stripe::Token.create(card: { number: card_number, exp_month: 8, exp_year: 2016, cvc: "314" }).id }
 
       context "with valid credit card" do
@@ -11,12 +10,11 @@ describe StripeWrapper do
 
         it "charges the card successfully", :vcr do
           charge = StripeWrapper::Charge.create(amount: 300, card: token, description: "valid charge")
-          expect(charge.response.amount).to eq(300)
           expect(charge.successful?).to be_truthy
         end
       end
 
-      context "with invalid credit card" do
+      context "with declined credit card" do
         let(:card_number) { "4000000000000002" }
 
         it "does not charge the card successfully", :vcr do

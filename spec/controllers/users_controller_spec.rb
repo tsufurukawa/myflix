@@ -72,11 +72,10 @@ describe UsersController do
   end
 
   describe "POST create" do 
-    context "with valid input" do
+    context "with valid personal info and valid card" do
       before do
-        charge = double('charge')
-        charge.stub(:successful?).and_return(true)
-        StripeWrapper::Charge.stub(:create).and_return(charge)
+        charge = double(:charge, successful?: true)
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
       end
 
       after { ActionMailer::Base.deliveries.clear }
@@ -137,8 +136,28 @@ describe UsersController do
       end
     end
 
-    context "with invalid input" do 
-      before { post :create, user: { name: "Josh Smith" } }
+    context "with valid personal info and declined card" do
+      before do
+        charge = double(:charge, successful?: false, error_message: "You're card was declined.")
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        post :create, user: Fabricate.attributes_for(:user)
+      end
+
+      it "does not create a new user record" do
+         expect(User.count).to eq(0)
+      end
+
+      it "renders the new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets a flash error message" do
+        expect(flash[:danger]).to be_present
+      end
+    end
+
+    context "with invalid personal info" do 
+      before { post :create, user: { name: "Josh Smith" } } 
 
       it "doesn't create any user" do 
         expect(User.count).to eq(0)
@@ -154,6 +173,10 @@ describe UsersController do
 
       it "does not send out the email" do 
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      it "does not charge the credit card" do
+        StripeWrapper::Charge.should_not_receive(:create)
       end
     end
   end
