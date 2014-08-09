@@ -10,6 +10,7 @@ Sidekiq::Testing.inline!
 
 # force Selenium to run on localhost:50924
 Capybara.server_port = 50924
+Capybara.javascript_driver = :webkit
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
