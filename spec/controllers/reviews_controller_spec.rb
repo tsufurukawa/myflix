@@ -52,9 +52,9 @@ describe ReviewsController do
           expect(assigns(:review)).to be_a_new(Review)
         end
 
-        it "sets @video" do 
+        it "sets @video decorator" do 
           post :create, review: { rating: 3 }, video_id: video.id
-          expect(assigns(:video)).to eq(video)
+          expect(assigns(:video)).to be_decorated_with(VideoDecorator)
         end
       end 
     end
