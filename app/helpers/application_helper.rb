@@ -3,4 +3,3 @@ module ApplicationHelper
     options_for_select([5,4,3,2,1].map { |value| [pluralize(value, "Star"), value] }, selected)
   end
 end
-

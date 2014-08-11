@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_14PQsW4wLG6Oy3vFf8QahQyd&description=Sign%20up%20charge%20for%20joe%40example.com
+      string: amount=999&currency=usd&card=tok_14Q0zh4wLG6Oy3vFQwXm8w2n&description=Sign%20up%20charge%20for%20joe%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,37 +31,37 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 09 Aug 2014 03:50:49 GMT
+      - Sun, 10 Aug 2014 18:24:38 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
       - '1230'
+      Cache-Control:
+      - no-cache, no-store
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
       - GET, POST, HEAD, OPTIONS, DELETE
-      Access-Control-Max-Age:
-      - '300'
-      Cache-Control:
-      - no-cache, no-store
       Stripe-Version:
       - '2014-07-26'
+      Access-Control-Max-Age:
+      - '300'
       Strict-Transport-Security:
       - max-age=31556926; includeSubDomains
     body:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_14PQsX4wLG6Oy3vFLiJQwpXv",
+          "id": "ch_14Q0zi4wLG6Oy3vFabsZNw8z",
           "object": "charge",
-          "created": 1407556249,
+          "created": 1407695078,
           "livemode": false,
           "paid": true,
           "amount": 999,
           "currency": "usd",
           "refunded": false,
           "card": {
-            "id": "card_14PQsW4wLG6Oy3vFdvjvKMS4",
+            "id": "card_14Q0zh4wLG6Oy3vFpNBmPaLZ",
             "object": "card",
             "last4": "4242",
             "brand": "Visa",
@@ -87,10 +87,10 @@ http_interactions:
             "object": "list",
             "total_count": 0,
             "has_more": false,
-            "url": "/v1/charges/ch_14PQsX4wLG6Oy3vFLiJQwpXv/refunds",
+            "url": "/v1/charges/ch_14Q0zi4wLG6Oy3vFabsZNw8z/refunds",
             "data": []
           },
-          "balance_transaction": "txn_14PQsX4wLG6Oy3vFGMWHdrIT",
+          "balance_transaction": "txn_14Q0zi4wLG6Oy3vFcbiSDfDq",
           "failure_message": null,
           "failure_code": null,
           "amount_refunded": 0,
@@ -103,5 +103,5 @@ http_interactions:
           "receipt_email": null
         }
     http_version: 
-  recorded_at: Sat, 09 Aug 2014 03:50:49 GMT
+  recorded_at: Sun, 10 Aug 2014 18:24:39 GMT
 recorded_with: VCR 2.9.2
