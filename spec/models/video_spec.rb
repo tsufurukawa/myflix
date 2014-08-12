@@ -30,28 +30,4 @@ describe Video do
       expect(Video.search_by_title("")).to eq([])  
     end
   end
-
-  describe '#average_rating' do 
-    let(:video1) { Fabricate(:video) }
-    let(:user1) { Fabricate(:user) }
-    let(:user2) { Fabricate(:user) }
-    let(:user3) { Fabricate(:user) }
-
-    it "returns a float rounded to the nearest tenths place " do 
-      review1 = Fabricate(:review, rating: 2, video: video1, user: user1)
-      review2 = Fabricate(:review, rating: 3, video: video1, user: user2)
-      review3 = Fabricate(:review, rating: 3, video: video1, user: user3)
-      expect(video1.average_rating).to eq(2.7)
-    end
-
-    it "returns a float with a 0 in the tenths place if average rating is a whole number" do 
-      review1 = Fabricate(:review, rating: 4, video: video1, user: user1)
-      review2 = Fabricate(:review, rating: 2, video: video1, user: user2)
-      expect(video1.average_rating).to eql(3.0)
-    end
-
-    it "returns nil if there are no reviews/ratings" do 
-      expect(video1.average_rating).to be_nil
-    end
-  end
 end

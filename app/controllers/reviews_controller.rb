@@ -2,7 +2,7 @@ class ReviewsController < ApplicationController
   before_action :require_user
 
   def create
-    @video = Video.find(params[:video_id])
+    @video = Video.find(params[:video_id]).decorate
     @review = @video.reviews.build(review_params.merge!(user: current_user))
 
     if @review.save

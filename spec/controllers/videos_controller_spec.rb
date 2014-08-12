@@ -33,8 +33,8 @@ describe VideosController do
         get :show, id: video2.id
       end
 
-      it "sets the @video variable" do 
-        expect(assigns(:video)).to eq(video2)
+      it "sets the @video decorator" do 
+        expect(assigns(:video)).to eq(video2.decorate)
       end
 
       it "sets @reviews variable" do 

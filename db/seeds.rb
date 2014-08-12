@@ -11,7 +11,8 @@ Category.create(name: 'Drama')
 Category.create(name: 'Comedy')
 Category.create(name: 'Reality TV')
 
-3.times do 
+Fabricate(:admin, name: 'Admin', email: 'admin@example.com', password: 'password')
+2.times do 
   Fabricate(:user, password: 'password')
 end
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "User invites a friend" do
-  scenario "user sends invitation and invitation is accepted" do
+  scenario "user sends invitation and invitation is accepted", { js: true, vcr: true } do
     user = Fabricate(:user)
     sign_in(user)
     clear_emails
@@ -22,7 +22,7 @@ feature "User invites a friend" do
   end
 
   def fill_and_send_out_invitation_form
-    click_link "Invite a Friend"
+    visit invite_path
     fill_in "Friend's Name", with: "Joe Example"
     fill_in "Friend's Email Address", with: "joe@example.com"
     fill_in "Invitation Message", with: "Join MyFlix!!!"
@@ -41,7 +41,11 @@ feature "User invites a friend" do
   def friend_signs_up
     fill_in "Password", with: "password"
     fill_in "Full Name", with: "Joe Example"
-    click_button "Sign Up"
+    fill_in "Credit Card Number", with: "4242424242424242"
+    fill_in "Security Code", with: "123"
+    select('8 - August', from: 'card-expiry-month')
+    select('2018', from: 'card-expiry-year')
+    click_button "Sign Up for $9.99!!"
     expect(page).to have_content "Welcome Joe Example!! You successfully registered."
   end
 

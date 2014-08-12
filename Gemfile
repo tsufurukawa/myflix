@@ -21,6 +21,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'figaro'
 gem 'stripe'
+gem 'draper'
 
 group :development do
   gem 'sqlite3'
@@ -38,10 +39,14 @@ end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'database_cleaner', '1.2.0'
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'capybara'
   gem 'capybara-email', github: 'dockyard/capybara-email'
   gem 'launchy'
+  gem 'vcr'
+  gem 'webmock'
+  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
 end
 
 group :production, :staging do

@@ -72,82 +72,59 @@ describe UsersController do
   end
 
   describe "POST create" do 
-    context "with valid input" do 
-      after { ActionMailer::Base.deliveries.clear }
-      
-      it "creates a user" do
-        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
-        expect(User.count).to eq(1)
+    context "successful user signup" do
+      before do
+        result = double(:sign_up_result, successful?: true)
+        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        post :create, user: Fabricate.attributes_for(:user)
       end
 
-      it "sets the session for the user" do
-        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
-        user = assigns(:user)
-        expect(session[:user_id]).to eq(user.id)
+      it "sets the flash success message" do
+        expect(flash[:success]).to be_present
       end
 
-      it "redirects to home page" do
-        post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }
+      it "redirects to home path" do
         expect(response).to redirect_to home_path
       end
 
-      context "through invitation" do
-        let(:inviter) { Fabricate(:user) }
-        let(:invitation) { Fabricate(:invitation, inviter: inviter) }
-        before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" }, invitation_token: invitation.token }
-
-        it "makes the user follow the inviter" do
-          user = User.find_by_name("Alice")
-          expect(user.already_following?(inviter)).to be_truthy
-        end
-
-        it "makes the inviter follow the user" do
-          user = User.find_by_name("Alice")
-          expect(inviter.already_following?(user)).to be_truthy
-        end
-
-        it "expires the invitation upon acceptance" do
-          expect(Invitation.first.token).to be_nil
-        end
-      end
-
-      context "email sending" do
-        before { post :create, user: { name: "Alice", email: "alice@example.com", password: "password" } }
-
-        it "sends out the email" do
-          expect(ActionMailer::Base.deliveries).not_to be_empty    
-        end
-
-        it "sends to the right recipient" do
-          message = ActionMailer::Base.deliveries.last
-          expect(message.to).to eq(["alice@example.com"])  
-        end
-
-        it "has the right content" do
-          user = assigns(:user) 
-          message = ActionMailer::Base.deliveries.last
-          expect(message.body).to include("Welcome to Myflix, Alice")
-        end
+      it "sets the session for the user" do
+        expect(session[:user_id]).to eq(assigns(:user).id)
       end
     end
 
-    context "with invalid input" do 
-      before { post :create, user: { name: "Josh Smith" } }
-
-      it "doesn't create any user" do 
-        expect(User.count).to eq(0)
+    context "failed signup with declined card" do
+      before do
+        result = double(:sign_up_result, successful?: false, declined_card?: true, error_message: "Your card was declined.")
+        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        post :create, user: Fabricate.attributes_for(:user)
       end
 
-      it "renders the new template" do 
+      it "sets the flash error message" do
+        expect(flash[:danger]).to eq("Your card was declined.")
+      end
+
+      it "renders the new template" do
         expect(response).to render_template :new
       end
 
       it "sets @user (but does not persist in database)" do 
         expect(assigns(:user)).to be_a_new(User)
       end
+    end
 
-      it "does not send out the email" do 
-        expect(ActionMailer::Base.deliveries).to be_empty
+    context "failed signup with invalid personal info" do
+      before do
+        result = double(:sign_up_result, successful?: false, declined_card?: false)
+        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        post :create, user: { name: "Alice" }
+      end
+
+      it "renders the new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets @user (but does not persist in database)" do 
+        expect(assigns(:user)).to be_a_new(User)
       end
     end
   end
