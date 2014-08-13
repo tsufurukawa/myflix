@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_14Q0zk4wLG6Oy3vFZZrtSzMw&description=Sign%20up%20charge%20for%20joe%40example.com
+      string: card=tok_14QpVy4wLG6Oy3vFhcVxMYw2&plan=base&email=joe%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         Tsubasa-iMac.local 13.3.0 Darwin Kernel Version 13.3.0: Tue Jun  3 21:27:35
         PDT 2014; root:xnu-2422.110.17~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '114'
+      - '67'
   response:
     status:
       code: 402
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 10 Aug 2014 18:24:41 GMT
+      - Wed, 13 Aug 2014 00:21:18 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '162'
+      - '117'
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
@@ -55,10 +55,9 @@ http_interactions:
           "error": {
             "message": "Your card was declined.",
             "type": "card_error",
-            "code": "card_declined",
-            "charge": "ch_14Q0zk4wLG6Oy3vFtcGm7q35"
+            "code": "card_declined"
           }
         }
     http_version: 
-  recorded_at: Sun, 10 Aug 2014 18:24:43 GMT
+  recorded_at: Wed, 13 Aug 2014 00:21:18 GMT
 recorded_with: VCR 2.9.2

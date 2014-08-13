@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/customers
+    uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: card=tok_14QpVt4wLG6Oy3vFAmkArky1&plan=base&email=joe%40example.com
+      string: card[number]=4242424242424242&card[exp_month]=8&card[exp_year]=2016&card[cvc]=314
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         Tsubasa-iMac.local 13.3.0 Darwin Kernel Version 13.3.0: Tue Jun  3 21:27:35
         PDT 2014; root:xnu-2422.110.17~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '67'
+      - '81'
   response:
     status:
       code: 200
@@ -31,11 +31,91 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 13 Aug 2014 00:21:14 GMT
+      - Tue, 12 Aug 2014 23:54:20 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '2214'
+      - '596'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Stripe-Version:
+      - '2014-07-26'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "tok_14Qp5s4wLG6Oy3vF7Hnhl8F7",
+          "livemode": false,
+          "created": 1407887660,
+          "used": false,
+          "object": "token",
+          "type": "card",
+          "card": {
+            "id": "card_14Qp5s4wLG6Oy3vFfgozQiTS",
+            "object": "card",
+            "last4": "4242",
+            "brand": "Visa",
+            "funding": "credit",
+            "exp_month": 8,
+            "exp_year": 2016,
+            "fingerprint": "QgWwqM7FVfqMQcru",
+            "country": "US",
+            "name": null,
+            "address_line1": null,
+            "address_line2": null,
+            "address_city": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_country": null,
+            "customer": null
+          }
+        }
+    http_version: 
+  recorded_at: Tue, 12 Aug 2014 23:54:20 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: card=tok_14Qp5s4wLG6Oy3vF7Hnhl8F7&plan=base&email=ofelia_harvey%40orn.biz
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.14.0
+      Authorization:
+      - Bearer sk_test_4WDjoqxy0rAd0OROX0x5MnUD
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.14.0","lang":"ruby","lang_version":"2.1.1 p76 (2014-02-24)","platform":"x86_64-darwin13.0","publisher":"stripe","uname":"Darwin
+        Tsubasa-iMac.local 13.3.0 Darwin Kernel Version 13.3.0: Tue Jun  3 21:27:35
+        PDT 2014; root:xnu-2422.110.17~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '73'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 12 Aug 2014 23:54:21 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '2220'
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
@@ -53,21 +133,21 @@ http_interactions:
       string: |
         {
           "object": "customer",
-          "created": 1407889273,
-          "id": "cus_4ZzUnkDxSYi7Kk",
+          "created": 1407887660,
+          "id": "cus_4Zz4yO9XGvPCtE",
           "livemode": false,
           "description": null,
-          "email": "joe@example.com",
+          "email": "ofelia_harvey@orn.biz",
           "delinquent": false,
           "metadata": {},
           "subscriptions": {
             "object": "list",
             "total_count": 1,
             "has_more": false,
-            "url": "/v1/customers/cus_4ZzUnkDxSYi7Kk/subscriptions",
+            "url": "/v1/customers/cus_4Zz4yO9XGvPCtE/subscriptions",
             "data": [
               {
-                "id": "sub_4ZzUmFLvgKJrI8",
+                "id": "sub_4Zz4u1VMaTFtsO",
                 "plan": {
                   "interval": "month",
                   "name": "myflix base plan",
@@ -83,12 +163,12 @@ http_interactions:
                   "statement_description": null
                 },
                 "object": "subscription",
-                "start": 1407889273,
+                "start": 1407887660,
                 "status": "active",
-                "customer": "cus_4ZzUnkDxSYi7Kk",
+                "customer": "cus_4Zz4yO9XGvPCtE",
                 "cancel_at_period_end": false,
-                "current_period_start": 1407889273,
-                "current_period_end": 1410567673,
+                "current_period_start": 1407887660,
+                "current_period_end": 1410566060,
                 "ended_at": null,
                 "trial_start": null,
                 "trial_end": null,
@@ -107,16 +187,16 @@ http_interactions:
             "object": "list",
             "total_count": 1,
             "has_more": false,
-            "url": "/v1/customers/cus_4ZzUnkDxSYi7Kk/cards",
+            "url": "/v1/customers/cus_4Zz4yO9XGvPCtE/cards",
             "data": [
               {
-                "id": "card_14QpVt4wLG6Oy3vFzLyUbEKN",
+                "id": "card_14Qp5s4wLG6Oy3vFfgozQiTS",
                 "object": "card",
                 "last4": "4242",
                 "brand": "Visa",
                 "funding": "credit",
                 "exp_month": 8,
-                "exp_year": 2018,
+                "exp_year": 2016,
                 "fingerprint": "QgWwqM7FVfqMQcru",
                 "country": "US",
                 "name": null,
@@ -129,12 +209,12 @@ http_interactions:
                 "cvc_check": "pass",
                 "address_line1_check": null,
                 "address_zip_check": null,
-                "customer": "cus_4ZzUnkDxSYi7Kk"
+                "customer": "cus_4Zz4yO9XGvPCtE"
               }
             ]
           },
-          "default_card": "card_14QpVt4wLG6Oy3vFzLyUbEKN"
+          "default_card": "card_14Qp5s4wLG6Oy3vFfgozQiTS"
         }
     http_version: 
-  recorded_at: Wed, 13 Aug 2014 00:21:14 GMT
+  recorded_at: Tue, 12 Aug 2014 23:54:21 GMT
 recorded_with: VCR 2.9.2
