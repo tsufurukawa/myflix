@@ -1,7 +1,7 @@
 shared_examples "require_sign_in" do 
   before do 
     clear_current_user
-    action 
+    action
   end
 
   it "redirects to sign-in page" do

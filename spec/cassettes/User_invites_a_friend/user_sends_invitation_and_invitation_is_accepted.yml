@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: card=tok_14QpVt4wLG6Oy3vFAmkArky1&plan=base&email=joe%40example.com
+      string: card=tok_14RFwN4wLG6Oy3vF0aC0lyXL&plan=base&email=joe%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 13 Aug 2014 00:21:14 GMT
+      - Thu, 14 Aug 2014 04:34:21 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
@@ -53,8 +53,8 @@ http_interactions:
       string: |
         {
           "object": "customer",
-          "created": 1407889273,
-          "id": "cus_4ZzUnkDxSYi7Kk",
+          "created": 1407990860,
+          "id": "cus_4aQohZZSs4kxTJ",
           "livemode": false,
           "description": null,
           "email": "joe@example.com",
@@ -64,10 +64,10 @@ http_interactions:
             "object": "list",
             "total_count": 1,
             "has_more": false,
-            "url": "/v1/customers/cus_4ZzUnkDxSYi7Kk/subscriptions",
+            "url": "/v1/customers/cus_4aQohZZSs4kxTJ/subscriptions",
             "data": [
               {
-                "id": "sub_4ZzUmFLvgKJrI8",
+                "id": "sub_4aQoKq3itRaeBQ",
                 "plan": {
                   "interval": "month",
                   "name": "myflix base plan",
@@ -83,12 +83,12 @@ http_interactions:
                   "statement_description": null
                 },
                 "object": "subscription",
-                "start": 1407889273,
+                "start": 1407990860,
                 "status": "active",
-                "customer": "cus_4ZzUnkDxSYi7Kk",
+                "customer": "cus_4aQohZZSs4kxTJ",
                 "cancel_at_period_end": false,
-                "current_period_start": 1407889273,
-                "current_period_end": 1410567673,
+                "current_period_start": 1407990860,
+                "current_period_end": 1410669260,
                 "ended_at": null,
                 "trial_start": null,
                 "trial_end": null,
@@ -107,10 +107,10 @@ http_interactions:
             "object": "list",
             "total_count": 1,
             "has_more": false,
-            "url": "/v1/customers/cus_4ZzUnkDxSYi7Kk/cards",
+            "url": "/v1/customers/cus_4aQohZZSs4kxTJ/cards",
             "data": [
               {
-                "id": "card_14QpVt4wLG6Oy3vFzLyUbEKN",
+                "id": "card_14RFwN4wLG6Oy3vFvoNX6KW7",
                 "object": "card",
                 "last4": "4242",
                 "brand": "Visa",
@@ -129,12 +129,12 @@ http_interactions:
                 "cvc_check": "pass",
                 "address_line1_check": null,
                 "address_zip_check": null,
-                "customer": "cus_4ZzUnkDxSYi7Kk"
+                "customer": "cus_4aQohZZSs4kxTJ"
               }
             ]
           },
-          "default_card": "card_14QpVt4wLG6Oy3vFzLyUbEKN"
+          "default_card": "card_14RFwN4wLG6Oy3vFvoNX6KW7"
         }
     http_version: 
-  recorded_at: Wed, 13 Aug 2014 00:21:14 GMT
+  recorded_at: Thu, 14 Aug 2014 04:34:21 GMT
 recorded_with: VCR 2.9.2
