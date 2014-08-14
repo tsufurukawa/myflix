@@ -1,4 +1,5 @@
 Myflix::Application.routes.draw do
+  root to: 'pages#front'
   get '/home', to: 'videos#index'
   get '/genre/:id', to: 'categories#show', as: 'genre'
 
@@ -37,6 +38,7 @@ Myflix::Application.routes.draw do
   get '/invite', to: 'invitations#new'
   resources :invitations, only: [:create]
 
-  root to: 'pages#front'
   get 'ui(/:action)', controller: 'ui'
+
+  mount StripeEvent::Engine => '/stripe_events'
 end

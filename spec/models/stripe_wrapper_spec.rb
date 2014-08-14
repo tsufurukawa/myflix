@@ -30,19 +30,28 @@ describe StripeWrapper do
   describe StripeWrapper::Customer do
     let(:alice) { Fabricate(:user) }
 
-    it "creates a customer with valid card", :vcr do
-      response = StripeWrapper::Customer.create(user: alice, card: valid_token)
-      expect(response.successful?).to be_truthy
+    context "with valid credit card" do
+      let(:response) { StripeWrapper::Customer.create(user: alice, card: valid_token) }
+
+      it "creates a customer with valid card", :vcr do
+        expect(response.successful?).to be_truthy
+      end
+
+      it "contains a customer token", :vcr do
+        expect(response.customer_token).to be_present
+      end
     end
 
-    it "does not create a customer with declined card", :vcr do
-      response = StripeWrapper::Customer.create(user: alice, card: declined_card_token)
-      expect(response.successful?).to be_falsy
-    end
+    context "with declined credit card" do
+      let(:response) { StripeWrapper::Customer.create(user: alice, card: declined_card_token) }
 
-    it "contains an error message for declined card", :vcr do
-      response = StripeWrapper::Customer.create(user: alice, card: declined_card_token)
-      expect(response.error_message).to eq("Your card was declined.")
+      it "does not create a customer with declined card", :vcr do
+        expect(response.successful?).to be_falsy
+      end
+
+      it "contains an error message for declined card", :vcr do
+        expect(response.error_message).to eq("Your card was declined.")
+      end
     end
   end
 end
