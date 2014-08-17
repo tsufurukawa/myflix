@@ -10,7 +10,7 @@ The deployed application can be seen here:
 
 http://tl-myflix-furukawa-staging.herokuapp.com/
 
-You can either sign in with "admin@example.com" and "password" or register for an account with credit card number "4242424242424242" and Security Code "123". The former method will sign you in as an Administrator and the latter as a regular user. Also note this is the "staging" application and not the "production" application - though the two are almost identical, I have decided to post the staging app so users can sign in with a fake credit card.
+You can either sign in with "admin@example.com" and "password" or register for an account with credit card number "4242424242424242" and Security Code "123". The former method will sign you in as an Administrator and the latter as a regular user. Also note this is the "staging" and not the "production" application - though the two are almost identical, I have decided to post the staging app so users can sign in with a fake credit card.
 
 == Key Features
 
@@ -35,7 +35,7 @@ The major tools used are:
 == Social Networking
 Myflix implements two social networking features:
 
-* Twitter-like "Following / Followed" feature using self-referential ActiveRecord association. 
+* Twitter-like "Following / Follower" feature using self-referential ActiveRecord association. 
 * The ability to invite other users to the application. The invitee is sent an email containing a link directed to the user registration page. The link routes to a unique URL through a randomly generated invitation token.
 
 == Backround Jobs and Sidekiq
@@ -76,7 +76,7 @@ These logic specific to the admin were segregated by namespacing them to separat
     resources :payments, only: [:index]
   end
 
-== Objected Composition and Objected Oriented Design
+== Object Composition and Object Oriented Design
 Complexity of the application was managed by breaking down large pieces of complex logic into small components
 with simple responsibilities. We used two object-oriented design patterns to facilitate this process.
 
