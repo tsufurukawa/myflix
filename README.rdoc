@@ -88,4 +88,10 @@ A simple deployment pipeline was used to develop our application and can be summ
 
   run entire test suite locally -> deploy to staging and test -> deploy to production
 
-The Paratrooper gem was used to simply the deployment process with quick and concise rake tasks. In addition, the Sentry gem was implemented to set up an error monitoring service on production.  
+The Paratrooper gem was used to simply the deployment process with quick and concise rake tasks. In addition, the Sentry gem was implemented to set up an error monitoring service on production.
+
+== Features Yet To Be Implemented
+
+* An "Account" page where users update their personal information.
+* A "Plan and Billing" page where users can cancel their subscriptions and view their payment histories.
+* An ability to sort the videos according to "Title A-Z", "Title Z-A", or "Rating".
