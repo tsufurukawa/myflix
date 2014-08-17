@@ -2,7 +2,7 @@
 
 Myflix is a production quality e-commerce application, a Netflix clone, built on
 the Ruby on Rails framework. This was the final course project at the online web development
-bootcamp Tealeaf Academy (http://www.gotealeaf.com). The UI mockup was provided to us by the 
+bootcamp Tealeaf Academy (http://www.gotealeaf.com). The UI mockup was provided by the 
 Tealeaf instructors. We implemented the entire backend of the application using the Github workflow 
 and Test Driven Development.
 
@@ -10,9 +10,7 @@ The deployed application can be seen here:
 
 http://tl-myflix-furukawa-staging.herokuapp.com/
 
-You can either sign in with "admin@example.com" and "password" or register for an account with
-credit card number "4242424242424242" and Security Code "123" to log-in to the application. 
-(Note: the former method will sign you in as an Administrator.) 
+You can either sign in with "admin@example.com" and "password" or register for an account with credit card number "4242424242424242" and Security Code "123". The former method will sign you in as an Administrator and the latter as a regular user. Also note this is the "staging" application and not the "production" application - though the two are almost identical, I have decided to post the staging app so users can sign in with a fake credit card.
 
 == Key Features
 
@@ -26,7 +24,7 @@ manage complexity in the growing codebase. The comprehensive test suite covers n
 aspects of the application - from models, controllers, service objects, and to integrated 
 feature specs. 
 
-The major tools utilized are:
+The major tools used are:
 
 * RSpec - the framework used for all tests
 * Capybara - to emulate end user "browser experience" (integration tests)
@@ -52,8 +50,9 @@ Myflix interfaces with the Stripe API to handle customer payments. An API wrappe
 to centralize and isolate all interactions with the Stripe service. Some key features are:
 
 * Creating subscriptions to charge customers on a monthly basis.
-* Accepting payments with custom form using Stripe.js.
-* Responding to webhooks to handle successful and failed charge events.
+* Accepting payments with a custom form using Stripe.js.
+* Responding to webhooks on successful and failed charge events.
+* Suspending a user account following a failed credit card charge.
 
 The Stripe wrapper was fully tested with VCR so that all interactions with the Stripe server 
 were recorded once on the first test run and replayed for all subsequent runs.
@@ -64,7 +63,7 @@ File uploading was accomplished using the Carrierwave gem, while integration wit
 the Fog gem.
 
 == Privileges and Access Control
-Myflix has two different types of users, or "actors" - a regular user and an admin. An admin can interact with
+Myflix has two different types of users or "actors" - a regular user and an Administrator (admin). An admin can interact with
 the application in two additional ways:
 
 * Create or upload new videos.
@@ -89,4 +88,4 @@ A simple deployment pipeline was used to develop our application and can be summ
 
   run entire test suite locally -> deploy to staging and test -> deploy to production
 
-The Paratrooper gem was used to simply the deployment process with quick and concise rake tasks. 
+The Paratrooper gem was used to simply the deployment process with quick and concise rake tasks. In addition, the Sentry gem was implemented to set up an error monitoring service on production.  
